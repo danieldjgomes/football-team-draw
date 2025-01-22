@@ -53,7 +53,12 @@ function App() {
           <h2>Times</h2>
           {teams.map((team, index) => (
               <div className="team" key={index}>
-                <strong>Time {index + 1}:</strong> {team.join(', ')}
+                <strong>Time {index + 1}:</strong>
+                <ul>
+                  {team.map((player, playerIndex) => (
+                      <li key={playerIndex}>{player}</li>
+                  ))}
+                </ul>
               </div>
           ))}
         </div>
