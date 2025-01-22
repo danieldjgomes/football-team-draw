@@ -87,8 +87,10 @@ function App() {
   return (
       <div className="app-container">
         <h1>Super Futebolas da Sapopa</h1>
-
-        <div className="team-section">
+        {players.length === 0 &&
+            <h3>Adicione Jogadores para começar a sortear os times.</h3>
+        }
+        {players.length > 0 && <div className="team-section">
           <h2>Times</h2>
           {teams.map((team, index) => (
               <div className="team" key={index}>
@@ -101,17 +103,21 @@ function App() {
               </div>
           ))}
         </div>
+        }
 
-        <div className="next-players">
+        {players.length > 0 && <div className="next-players">
           <h2>Próximos</h2>
           <p>{nextPlayers.length > 0 ? nextPlayers.join(', ') : 'Não tem próximo'}</p>
         </div>
+        }
 
         <div className="actions-section">
           <div className="grouped-buttons">
-            <button className="reshuffle-btn" onClick={handleReshuffle}>
-              Resortear
-            </button>
+            {players.length > 1 &&
+                <button className="reshuffle-btn" onClick={handleReshuffle}>
+                  Resortear
+                </button>
+            }
             <button className="edit-btn" onClick={() => setIsEditing(!isEditing)}>
               {isEditing ? "Fechar Editor" : "Editar Lista de Jogadores"}
             </button>
