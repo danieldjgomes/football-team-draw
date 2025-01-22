@@ -1,78 +1,156 @@
-/* App.css */
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f9;
-  color: #333;
-}
-
-h1 {
-  font-size: 1.8rem;
-  text-align: center;
-  margin: 1rem 0;
-  color: #007bff;
-}
-
-h2 {
-  font-size: 1.4rem;
-  margin: 1rem 0;
-  color: #555;
-  text-align: center;
-}
-
-div {
-  margin: 0 auto;
-  max-width: 600px;
-  padding: 1rem;
-}
-
-strong {
-  color: #333;
-}
-
-p, div > div {
-  font-size: 1rem;
-  text-align: center;
-}
-
-.team-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.team {
-  padding: 0.8rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.team strong {
-  display: block;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.next-players {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background-color: #e9ecef;
-  border-radius: 8px;
-  text-align: center;
-}
-
-@media (max-width: 480px) {
-  h1 {
-    font-size: 1.5rem;
+  .app-container {
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 600px;
+    text-align: center;
   }
 
-  h2 {
-    font-size: 1.2rem;
+  .players-section, .team-section, .next-players {
+    margin-bottom: 20px;
   }
 
-  p, div > div {
-    font-size: 0.9rem;
+  .players-list {
+    list-style: none;
+    padding: 0;
   }
-}
+
+  .player-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .player-input {
+    width: 70%;
+    padding: 10px;
+    margin-right: 10px;
+  }
+
+  .add-btn, .remove-btn, .copy-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .add-btn {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .remove-btn {
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+  }
+
+  .copy-btn {
+    background-color: #dddddd;
+    color: black;
+  }
+
+  .copy-btn:active {
+    background-color: #0056b3;
+  }
+
+  .edit-btn {
+    padding: 10px 15px;
+    margin: 20px 0;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .edit-btn:active {
+    background-color: #0056b3;
+  }
+
+  /* Estilo base para os itens da lista */
+  li {
+    list-style-type: none;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  /* Adiciona hover para o item */
+  li:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-2px);
+  }
+
+  /* Botão de remover no estilo minimalista */
+  .remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .remove-btn:hover {
+    background-color: #e60000;
+  }
+
+  .remove-btn:active {
+    background-color: #b30000;
+  }
+
+  /* Estilo para listas dentro de times */
+  .players-list, .team ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  .players-list li, .team ul li {
+    margin-bottom: 5px;
+  }
+
+  /* Adiciona um espaço visual entre os elementos da lista */
+  .team ul li {
+    margin-left: 15px;
+  }
+
+
+  .reshuffle-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+  }
+
+  .reshuffle-btn:hover {
+    background-color: #45a049;
+  }
+
+  .reshuffle-btn:active {
+    background-color: #3e8e41;
+  }
+  .grouped-buttons button {
+    margin-right: 10px; /* Adiciona espaço à direita entre os botões */
+  }
+
+  .grouped-buttons button:last-child {
+    margin-right: 0; /* Remove margem do último botão para manter o alinhamento */
+  }
