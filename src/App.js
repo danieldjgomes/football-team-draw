@@ -57,7 +57,11 @@ function App() {
 
   const updateURL = (players) => {
     const params = new URLSearchParams(window.location.search);
-    params.set('players', players.join(','));
+    if (players.length > 0) {
+      params.set('players', players.join(','));
+    } else {
+      params.delete('players');
+    }
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
   };
 
