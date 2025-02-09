@@ -129,7 +129,7 @@ function App() {
 
         <div className="actions-section">
           <div className="grouped-buttons">
-            {players.length > 1 && !isEditingPlayers &&
+            {players.length > 1 && !isEditing() &&
                 <button className="reshuffle-btn" onClick={handleReshuffle}>
                   {isShuffled ? "Resortear" : "Sortear"}
                 </button>
@@ -190,7 +190,6 @@ function App() {
                 <div className="setting">
                   <span> Quantidade de equipes:</span>
                   <br />
-
                   <button className="edit-btn" onClick={() => setTeamsCount((prev) => Math.max(1, prev - 1))}>-</button>
                   <span className="count" >{teamsCount}</span>
                   <button className="edit-btn" onClick={() => setTeamsCount((prev) => prev + 1)}>+</button>
