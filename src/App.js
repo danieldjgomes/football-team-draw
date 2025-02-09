@@ -151,16 +151,6 @@ function App() {
           {isEditingPlayers && (
               <div className="players-section">
                 <h2>Editar Jogadores</h2>
-                <ul className="players-list">
-                  {players.map((player, index) => (
-                      <li key={index} className="player-item">
-                        {player}
-                        <button className="remove-btn" onClick={() => handleRemovePlayer(player)}>
-                          ✖
-                        </button>
-                      </li>
-                  ))}
-                </ul>
                 <div className="add-player">
                   <input
                       type="text"
@@ -173,6 +163,16 @@ function App() {
                     Adicionar
                   </button>
                 </div>
+                <ul className="players-list">
+                  {players.map((player, index) => (
+                      <li key={index} className="player-item">
+                        {player}
+                        <button className="remove-btn" onClick={() => handleRemovePlayer(player)}>
+                          ✖
+                        </button>
+                      </li>
+                  ))}
+                </ul>
               </div>
           )}
 
@@ -206,6 +206,7 @@ function App() {
             </button>
           </div>
         }
+
       </div>
   );
 }
