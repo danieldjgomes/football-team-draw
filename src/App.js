@@ -5,8 +5,8 @@ function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
   return {
     players: params.get('players')?.split(',') || [],
-    teamsCount: parseInt(params.get('teamsCount')) || 2,
-    maxPlayersPerTeam: parseInt(params.get('maxPlayersPerTeam')) || 4,
+    initialTeamsCount: parseInt(params.get('teamsCount')) || 2,
+    initialMaxPlayersPerTeam: parseInt(params.get('maxPlayersPerTeam')) || 4,
   };
 }
 
@@ -35,13 +35,18 @@ function distributePlayers(players, teamsCount, maxPlayersPerTeam) {
 }
 
 function App() {
-  const { players: initialPlayers, teamsCount, maxPlayersPerTeam } = getQueryParams();
+  const { players: initialPlayers, initialTeamsCount, initialMaxPlayersPerTeam } = getQueryParams();
+
+  const [teamsCount, setTeamsCount] = useState(initialTeamsCount)
+  const [maxPlayersPerTeam, setMaxPlayersPerTeam] = useState(initialMaxPlayersPerTeam)
   const [players, setPlayers] = useState(initialPlayers);
   const [teams, setTeams] = useState([]);
   const [nextPlayers, setNextPlayers] = useState([]);
   const [newPlayer, setNewPlayer] = useState("");
   const [copied, setCopied] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingPlayers, setIsEditingPlayers] = useState(false);
+  const [isEditingRules, setIsEditingRules] = useState(false);
+  const [isShuffled, setIsShuffled] = useState(false);
 
   const updateTeams = (playersList) => {
     const shuffledPlayers = shuffle([...playersList]);
@@ -50,9 +55,13 @@ function App() {
     setNextPlayers(nextPlayers);
   };
 
+  const isEditing = () => {
+    return isEditingRules || isEditingPlayers
+  }
+
   useEffect(() => {
-    updateTeams(players);
     updateURL(players);
+    setIsShuffled(false);
   }, [players, teamsCount, maxPlayersPerTeam]);
 
   const updateURL = (players) => {
@@ -62,11 +71,14 @@ function App() {
     } else {
       params.delete('players');
     }
+      params.set('teamsCount', teamsCount.toString())
+      params.set('maxPlayersPerTeam', maxPlayersPerTeam.toString())
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
   };
 
   const handleReshuffle = () => {
     updateTeams(players);
+    setIsShuffled(true);
   };
 
   const handleAddPlayer = () => {
@@ -94,7 +106,7 @@ function App() {
         {players.length === 0 &&
             <h3>Adicione Jogadores para começar a sortear os times.</h3>
         }
-        {players.length > 0 && <div className="team-section">
+        {players.length > 0 && isShuffled && !isEditing() && <div className="team-section">
           <h2>Times</h2>
           {teams.map((team, index) => (
               <div className="team" key={index}>
@@ -109,7 +121,7 @@ function App() {
         </div>
         }
 
-        {players.length > 0 && <div className="next-players">
+        {players.length > 0 && isShuffled && !isEditing() && <div className="next-players">
           <h2>Próximos</h2>
           <p>{nextPlayers.length > 0 ? nextPlayers.join(', ') : 'Não tem próximo'}</p>
         </div>
@@ -117,16 +129,26 @@ function App() {
 
         <div className="actions-section">
           <div className="grouped-buttons">
-            {players.length > 1 &&
+            {players.length > 1 && !isEditingPlayers &&
                 <button className="reshuffle-btn" onClick={handleReshuffle}>
-                  Resortear
+                  {isShuffled ? "Resortear" : "Sortear"}
                 </button>
             }
-            <button className="edit-btn" onClick={() => setIsEditing(!isEditing)}>
-              {isEditing ? "Fechar Editor" : "Editar Lista de Jogadores"}
+
+            { !isEditingPlayers &&
+            <button className="edit-rule-btn" onClick={() => setIsEditingRules(!isEditingRules)}>
+              {isEditingRules ? "Fechar Editor" : "Configuracoes do sorteio"}
             </button>
+            }
+
+            { !isEditingRules &&
+              <button className="edit-btn" onClick={() => setIsEditingPlayers(!isEditingPlayers)}>
+              {isEditingPlayers ? "Fechar Editor" : "Editar Lista de Jogadores"}
+            </button>
+            }
+
           </div>
-          {isEditing && (
+          {isEditingPlayers && (
               <div className="players-section">
                 <h2>Editar Jogadores</h2>
                 <ul className="players-list">
@@ -153,14 +175,38 @@ function App() {
                 </div>
               </div>
           )}
+
+          {isEditingRules && (
+              <div className="players-section">
+                <h2>Regras</h2>
+                <div className="setting">
+                  <span>Jogadores por equipe:</span>
+                  <br />
+                  <button className="edit-btn" onClick={() => setMaxPlayersPerTeam((prev) => Math.max(1, prev - 1))}>-</button>
+                  <span className="count">{maxPlayersPerTeam}</span>
+                  <button className="edit-btn"  onClick={() => setMaxPlayersPerTeam((prev) => prev + 1)}>+</button>
+                </div>
+
+                <div className="setting">
+                  <span> Quantidade de equipes:</span>
+                  <br />
+
+                  <button className="edit-btn" onClick={() => setTeamsCount((prev) => Math.max(1, prev - 1))}>-</button>
+                  <span className="count" >{teamsCount}</span>
+                  <button className="edit-btn" onClick={() => setTeamsCount((prev) => prev + 1)}>+</button>
+                </div>
+              </div>
+          )}
         </div>
 
-
+        {
+          !isEditing() &&
           <div className="copy-url">
             <button className="copy-btn" onClick={copyToClipboard}>
               {copied ? "Link Copiado!" : "Copiar Link"}
             </button>
           </div>
+        }
       </div>
   );
 }

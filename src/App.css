@@ -67,6 +67,17 @@
     cursor: pointer;
   }
 
+  .edit-rule-btn {
+    padding: 10px 15px;
+    margin: 20px 0;
+    font-size: 16px;
+    background-color: #f5550d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
   .edit-btn:active {
     background-color: #0056b3;
   }
@@ -153,4 +164,10 @@
 
   .grouped-buttons button:last-child {
     margin-right: 0; /* Remove margem do último botão para manter o alinhamento */
+  }
+
+  .count{
+    padding: 10px;
+    font-size: large;
+
   }
